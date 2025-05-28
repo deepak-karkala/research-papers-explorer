@@ -1,0 +1,12 @@
+[
+  {
+    "id": "playlist001", "title": "Understanding Transformers",
+    "summary_article": "<h1>The Transformer Revolution</h1><p>This collection of papers traces the impact of the Transformer architecture, starting with its introduction in 'Attention Is All You Need'. Subsequent works like BERT demonstrated its power in pre-training models for a wide variety of NLP tasks. Explore these papers to understand the core concepts and their applications.</p>",
+    "paper_ids": ["paper001", "paper002"], "playlist_art_url": "images/playlists/playlist001.png", "genre_id": "genre001"
+  },
+  {
+    "id": "playlist002", "title": "Key Papers in Computer Vision",
+    "summary_article": "<h1>Milestones in CV</h1><p>Computer Vision has made incredible strides. This playlist includes seminal work like AlexNet, which significantly advanced image classification accuracy and spurred further research in deep learning for vision tasks.</p>",
+    "paper_ids": ["paper003"], "playlist_art_url": "images/playlists/playlist002.png", "genre_id": "genre002"
+  }
+]
