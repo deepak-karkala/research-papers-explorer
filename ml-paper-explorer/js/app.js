@@ -9,6 +9,8 @@ const appRoot = document.getElementById('app-root');
 
 // --- UI Component Card Renderers ---
 
+const playButtonSVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="play-icon-svg"><circle cx="50" cy="50" r="45" fill="#1DB954"/><path d="M 35 25 L 35 75 L 75 50 Z" fill="#000000"/></svg>';
+
 /**
  * Creates HTML string for a paper card.
  * @param {Object} paper - The paper object.
@@ -16,12 +18,16 @@ const appRoot = document.getElementById('app-root');
  */
 function createPaperCardHTML(paper) {
     if (!paper) return '<div class="card error-card">Error: Paper data missing.</div>';
+    const title = paper.title || 'Untitled Paper';
     return `
-        <div class="card paper-card" data-paper-id="${paper.id}">
-            ${paper.thumbnail_image_url ? `<img src="${paper.thumbnail_image_url}" alt="${paper.title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Image</div>'}
-            <h3 class="card-title">${paper.title || 'Untitled Paper'}</h3>
+        <div class="card paper-card" data-id="${paper.id}" data-type="paper" data-paper-id="${paper.id}"> {/* data-paper-id is redundant but kept for existing modal logic */}
+            ${paper.thumbnail_image_url ? `<img src="${paper.thumbnail_image_url}" alt="${title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Image</div>'}
+            <h3 class="card-title">${title}</h3>
             <p class="card-authors">${(paper.authors && paper.authors.length > 0) ? paper.authors.join(', ') : 'Unknown Authors'}</p>
             <p class="card-meta">${paper.year || 'Unknown Year'}</p>
+            <div class="card-play-button" data-id="${paper.id}" data-type="paper" aria-label="View details for ${title}">
+                ${playButtonSVG}
+            </div>
         </div>
     `;
 }
@@ -34,11 +40,17 @@ function createPaperCardHTML(paper) {
 function createAlbumCardHTML(album) {
     if (!album) return '<div class="card error-card">Error: Album data missing.</div>';
     const paperCount = album.paper_ids ? album.paper_ids.length : 0;
+    const title = album.title || 'Untitled Album';
+    // Current implementation has the card itself as an <a> tag. We will add the play button inside it.
+    // The main <a> tag will handle navigation to detail page. The play button is for a "play" action (future).
     return `
-        <a href="#album/${album.id}" class="card album-card" data-album-id="${album.id}">
-            ${album.album_art_url ? `<img src="${album.album_art_url}" alt="${album.title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Art</div>'}
-            <h3 class="card-title">${album.title || 'Untitled Album'}</h3>
+        <a href="#album/${album.id}" class="card album-card" data-id="${album.id}" data-type="album" data-album-id="${album.id}">
+            ${album.album_art_url ? `<img src="${album.album_art_url}" alt="${title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Art</div>'}
+            <h3 class="card-title">${title}</h3>
             <p class="card-meta">${paperCount} paper(s)</p>
+            <div class="card-play-button" data-id="${album.id}" data-type="album" aria-label="Play ${title}">
+                ${playButtonSVG}
+            </div>
         </a>
     `;
 }
@@ -51,11 +63,16 @@ function createAlbumCardHTML(album) {
 function createPlaylistCardHTML(playlist) {
     if (!playlist) return '<div class="card error-card">Error: Playlist data missing.</div>';
     const paperCount = playlist.paper_ids ? playlist.paper_ids.length : 0;
+    const title = playlist.title || 'Untitled Playlist';
+    // Similar to album card, main card is an <a> tag.
     return `
-        <a href="#playlist/${playlist.id}" class="card playlist-card" data-playlist-id="${playlist.id}">
-            ${playlist.playlist_art_url ? `<img src="${playlist.playlist_art_url}" alt="${playlist.title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Art</div>'}
-            <h3 class="card-title">${playlist.title || 'Untitled Playlist'}</h3>
+        <a href="#playlist/${playlist.id}" class="card playlist-card" data-id="${playlist.id}" data-type="playlist" data-playlist-id="${playlist.id}">
+            ${playlist.playlist_art_url ? `<img src="${playlist.playlist_art_url}" alt="${title}" class="card-thumbnail">` : '<div class="card-thumbnail-placeholder">No Art</div>'}
+            <h3 class="card-title">${title}</h3>
             <p class="card-meta">${paperCount} paper(s)</p>
+            <div class="card-play-button" data-id="${playlist.id}" data-type="playlist" aria-label="Play ${title}">
+                ${playButtonSVG}
+            </div>
         </a>
     `;
 }
@@ -67,10 +84,14 @@ function createPlaylistCardHTML(playlist) {
  */
 function createArtistCardHTML(artist) {
     if (!artist) return '<div class="card error-card">Error: Artist data missing.</div>';
+    const name = artist.name || 'Unknown Artist';
     return `
-        <a href="#artist/${artist.id}" class="card artist-card artist-link" data-artist-id="${artist.id}">
-            ${artist.logo_url ? `<img src="${artist.logo_url}" alt="${artist.name}" class="card-logo">` : `<div class="card-logo card-thumbnail-placeholder">${artist.name ? artist.name.substring(0,1) : '?'}</div>`}
-            <h4 class="card-title-link">${artist.name || 'Unknown Artist'}</h4>
+        <a href="#artist/${artist.id}" class="card artist-card artist-link" data-id="${artist.id}" data-type="artist" data-artist-id="${artist.id}">
+            ${artist.logo_url ? `<img src="${artist.logo_url}" alt="${name}" class="card-logo">` : `<div class="card-logo card-thumbnail-placeholder">${name ? name.substring(0,1) : '?'}</div>`}
+            <h4 class="card-title-link">${name}</h4>
+            <div class="card-play-button" data-id="${artist.id}" data-type="artist" aria-label="Play music by ${name}">
+                ${playButtonSVG}
+            </div>
         </a>
     `;
 }
@@ -82,9 +103,13 @@ function createArtistCardHTML(artist) {
  */
 function createGenreCardHTML(genre) {
     if (!genre) return '<div class="card error-card">Error: Genre data missing.</div>';
+    const name = genre.name || 'Unknown Genre';
     return `
-        <a href="#genre/${genre.id}" class="card genre-card genre-link" data-genre-id="${genre.id}">
-            <h4 class="card-title-link">${genre.name || 'Unknown Genre'}</h4>
+        <a href="#genre/${genre.id}" class="card genre-card genre-link" data-id="${genre.id}" data-type="genre" data-genre-id="${genre.id}">
+            <h4 class="card-title-link">${name}</h4>
+            <div class="card-play-button" data-id="${genre.id}" data-type="genre" aria-label="Play ${name} genre">
+                ${playButtonSVG}
+            </div>
         </a>
     `;
 }
@@ -127,12 +152,19 @@ function renderHomePage() {
  * Updates the 'active' class on navigation links based on the current page.
  * @param {string} currentPagePath - The base path of the current page (e.g., 'home', 'albums').
  */
-function updateNavActiveState(currentPagePath) {
+function updateNavActiveState(currentPagePath) { // currentPagePath is base, e.g., 'home', 'album', 'albums'
     const navLinks = document.querySelectorAll('header nav ul li a');
     navLinks.forEach(link => {
-        // HREF is expected to be like '/#path' or '/#path/param'
-        const linkPath = link.getAttribute('href').substring(2); // Remove '/#'
-        if (linkPath.startsWith(currentPagePath)) {
+        const linkHrefBase = link.getAttribute('href').substring(2); // e.g., 'home', 'albums'
+        
+        let isActive = false;
+        if (linkHrefBase === currentPagePath) { 
+            isActive = true;
+        } else if (linkHrefBase.endsWith('s') && linkHrefBase.slice(0, -1) === currentPagePath) {
+            isActive = true;
+        }
+
+        if (isActive) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -441,7 +473,7 @@ function handleRouteChange() {
     const [path, param] = hash.substring(1).split('/'); 
 
     // console.log(`Routing to: Path=${path}, Param=${param}`); // Removed verbose log
-    updateNavActiveState(path); // Pass the base path (e.g., 'album' from 'album/album001')
+    updateNavActiveState(path.split('/')[0]); // Pass the base path (e.g., 'album' from 'album/album001')
 
     switch (path) {
         case 'home': renderHomePage(); break;
@@ -479,11 +511,67 @@ document.addEventListener('DOMContentLoaded', async () => {
         handleRouteChange(); // Initial route handling
         // console.log('Router initialized and initial route processed.'); // Removed verbose log
 
-        // Event Listener for Paper Cards (using event delegation on app-root)
+        // Event Listener for Card Interactions (Play Buttons, Paper Modals, Card Links)
         appRoot.addEventListener('click', function(event) {
-            const targetCard = event.target.closest('.paper-card'); 
-            if (targetCard && targetCard.dataset.paperId) {
-                showPaperDetailModal(targetCard.dataset.paperId);
+            const clickedPlayButton = event.target.closest('.card-play-button');
+            const clickedPaperCard = event.target.closest('.paper-card'); 
+            
+            const clickedAlbumLink = event.target.closest('a.album-card');
+            const clickedPlaylistLink = event.target.closest('a.playlist-card');
+            const clickedArtistLink = event.target.closest('a.artist-card');
+            const clickedGenreLink = event.target.closest('a.genre-card');
+
+            if (clickedPlayButton) {
+                event.stopPropagation(); // Prioritize play button action
+
+                const id = clickedPlayButton.dataset.id;
+                const type = clickedPlayButton.dataset.type;
+
+                if (type === 'paper') {
+                    // If paper card itself is not a link, preventDefault isn't strictly needed here
+                    // but good practice if the underlying structure might change.
+                    event.preventDefault(); 
+                    showPaperDetailModal(id);
+                } else if (type && id) {
+                    // For cards that are <a> tags (album, playlist, artist, genre),
+                    // if the play button is *inside* this <a> tag, clicking the button
+                    // will also trigger the <a> tag's navigation unless we preventDefault.
+                    // Since the play button's action (navigation via hash change) is the same
+                    // as the <a> tag's default action, we can allow the default action
+                    // by NOT calling event.preventDefault() here if the parent card is the link.
+                    // However, to be explicit and handle cases where the card might not be an <a>,
+                    // we set the hash. If the parent is an <a>, this hash change will navigate.
+                    // The `stopPropagation` already prevents this click from being handled as a general card click again.
+                    
+                    // If the card itself (e.g. artist-card) is the link, and the play button is inside it,
+                    // the browser will navigate due to the <a> tag.
+                    // If we wanted the play button to do something *different* than the card link,
+                    // we would *need* event.preventDefault() here.
+                    // Since the goal is the same (navigate to detail), we can either:
+                    // 1. Let the default <a> action proceed (remove window.location.hash line, ensure no preventDefault).
+                    // 2. Explicitly navigate via JS (keep window.location.hash, and if the card is an <a>, preventDefault is technically not needed for this line to work, but stopPropagation is key).
+                    // For consistency and to ensure JS handles the navigation based on data attributes:
+                    
+                    // If the play button is within an <a> tag that is the card itself (e.g. album, playlist, artist, genre cards)
+                    // we should prevent the default <a> behavior if we are handling navigation via JS hash change.
+                    // However, our current card structure for albums, playlists, artists, genres *makes the card itself the link*.
+                    // The play button is *inside* that link.
+                    // So, if we click the play button, the <a> link will fire anyway.
+                    // Setting window.location.hash is fine, it will just navigate.
+                    // No need for event.preventDefault() on the play button click for these types,
+                    // as the default action of the parent <a> tag is desired (or effectively the same).
+                    window.location.hash = `${type}/${id}`;
+                }
+            } else if (clickedPaperCard) {
+                // Handle click on paper card itself (not the play button)
+                const paperId = clickedPaperCard.dataset.id; // Use data-id as standardized
+                if (paperId) {
+                    showPaperDetailModal(paperId);
+                }
+            } else if (clickedAlbumLink || clickedPlaylistLink || clickedArtistLink || clickedGenreLink) {
+                // This handles clicks on the card link itself, if it's not the play button.
+                // The browser's default behavior for following the <a> tag's href will handle the navigation.
+                // No specific JavaScript action is needed here.
             }
         });
         // console.log('Paper card click listener initialized on #app-root.'); // Removed verbose log
