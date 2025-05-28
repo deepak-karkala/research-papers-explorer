@@ -1,0 +1,5 @@
+[
+  {"id": "artist001", "name": "Google AI", "logo_url": "images/artists/google_ai.png"},
+  {"id": "artist002", "name": "OpenAI", "logo_url": "images/artists/openai.png"},
+  {"id": "artist003", "name": "DeepMind", "logo_url": "images/artists/deepmind.png"}
+]

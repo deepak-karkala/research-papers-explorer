@@ -1,0 +1,224 @@
+/* Basic CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dark Theme Variables */
+:root {
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --primary-text-color: #ffffff;
+    --secondary-text-color: #b3b3b3;
+    --accent-color: #1db954; /* Spotify Green */
+    --card-background-color: #282828;
+    --hover-highlight-color: #3a3a3a;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--primary-text-color);
+    line-height: 1.6;
+}
+
+header {
+    background-color: var(--surface-color);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--hover-highlight-color);
+}
+
+header h1 a {
+    color: var(--primary-text-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+
+header nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 1.5rem;
+}
+
+header nav ul li a {
+    color: var(--secondary-text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active { /* Assuming an 'active' class for current page */
+    color: var(--accent-color);
+}
+
+#search-bar {
+    padding: 0.5rem;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--card-background-color);
+    color: var(--primary-text-color);
+    width: 250px; /* Adjust as needed */
+}
+
+#search-bar::placeholder {
+    color: var(--secondary-text-color);
+}
+
+main#app-root {
+    padding: 2rem;
+}
+
+footer {
+    background-color: var(--surface-color);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    border-top: 1px solid var(--hover-highlight-color);
+    position: fixed; /* Or relative, depending on content flow */
+    bottom: 0;
+    width: 100%;
+}
+
+/* Basic link styling */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Card Styles (Basic) --- */
+.card {
+    background-color: var(--card-background-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+    overflow: hidden; /* Prevents content from spilling out */
+    color: var(--primary-text-color); /* Ensure text inside cards is readable */
+}
+
+.card:hover {
+    background-color: var(--hover-highlight-color);
+}
+
+.card-thumbnail, .card-logo {
+    width: 100%; /* Make image responsive within card */
+    height: 120px; /* Fixed height, adjust as needed */
+    object-fit: cover; /* Cover the area, might crop */
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    background-color: var(--surface-color); /* Placeholder bg for images */
+}
+
+.card-thumbnail-placeholder {
+    width: 100%;
+    height: 120px;
+    background-color: var(--surface-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color);
+    font-size: 0.9rem;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--primary-text-color);
+}
+
+.card-title-link { /* For cards that are entirely links */
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    text-decoration: none;
+}
+
+.card-authors, .card-meta {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.25rem;
+}
+
+.artist-card, .genre-card {
+    text-align: center;
+    display: block; /* Make the <a> tag block for better layout */
+}
+
+.artist-card .card-logo {
+    width: 80px; /* Smaller logo */
+    height: 80px;
+    border-radius: 50%; /* Circular logo */
+    margin: 0 auto 0.5rem auto; /* Center logo */
+}
+
+.error-card {
+    border: 1px solid red;
+    color: orange;
+}
+
+/* --- Grid for Cards (Basic) --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+    gap: 1rem;
+}
+
+/* --- Scrollable Row for Cards (Basic) --- */
+.card-row {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 1rem; /* For scrollbar visibility */
+    gap: 1rem;
+}
+
+.card-row .card {
+    min-width: 200px; /* Minimum width for cards in a row */
+    flex-shrink: 0;
+}
+
+/* --- Home Page Section Styles --- */
+.home-section {
+    margin-bottom: 2rem;
+}
+
+.home-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--primary-text-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.3rem;
+    display: inline-block; /* So border only spans text width */
+}
+
+/* Adjust card grids for genres and artists if needed, e.g., smaller cards */
+.genre-links .genre-card, .artist-links .artist-card {
+    /* Example: if you want them to be more compact than default cards */
+    padding: 0.75rem; 
+}
+
+.genre-links .card-title-link, .artist-links .card-title-link {
+    font-size: 1rem; /* Slightly smaller text for links */
+}
+
+/* Active link styling in header (if not already handled elsewhere) */
+header nav ul li a.active {
+    color: var(--accent-color);
+    font-weight: bold;
+}

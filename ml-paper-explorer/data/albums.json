@@ -1,0 +1,10 @@
+[
+  {
+    "id": "album001", "title": "Transformer Milestones", "description": "Key papers that introduced and built upon the Transformer architecture.",
+    "paper_ids": ["paper001", "paper002"], "album_art_url": "images/albums/album001.png", "artist_ids": ["artist001"]
+  },
+  {
+    "id": "album002", "title": "Early Deep Learning Wins", "description": "Foundational papers showcasing the power of deep learning.",
+    "paper_ids": ["paper003"], "album_art_url": "images/albums/album002.png", "artist_ids": ["artist003"]
+  }
+]

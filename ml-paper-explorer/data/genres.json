@@ -1,0 +1,5 @@
+[
+  {"id": "genre001", "name": "Natural Language Processing", "description": "Understanding and generating human language."},
+  {"id": "genre002", "name": "Computer Vision", "description": "Enabling computers to see and interpret visual information."},
+  {"id": "genre003", "name": "Reinforcement Learning", "description": "Training agents to make sequences of decisions."}
+]
