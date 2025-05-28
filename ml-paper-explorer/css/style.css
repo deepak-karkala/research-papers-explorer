@@ -134,6 +134,7 @@ a:focus-visible {
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Standardized transitions */
     overflow: hidden; 
     color: var(--primary-text-color); 
+    position: relative; /* Needed for absolute positioning of child elements */
 }
 
 .card:hover {
@@ -737,6 +738,83 @@ body.modal-open {
 .genre-detail-page .detail-content p.mt-1 {
     margin-top: 1rem;
 }
+
+/* --- Card Play Button Styles --- */
+.card-play-button {
+    position: absolute; /* Position relative to the card (which should have position: relative or be a flex/grid container) */
+    bottom: 1rem;      /* Example positioning: bottom-right */
+    right: 1rem;
+    width: 50px;       /* Size of the button */
+    height: 50px;
+    border-radius: 50%; /* Make it circular */
+    background-color: var(--accent-color); /* Fallback if SVG circle fill is not rendered, or for box shadow base */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    /* Initially hidden, appears on card hover */
+    opacity: 0;
+    transform: translateY(10px) scale(0.9); /* Start slightly down and scaled down */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, background-color 0.2s ease;
+    z-index: 5; /* Ensure it's above other card content if overlapping */
+}
+
+.card-play-button .play-icon-svg {
+    width: 100%; /* SVG takes full size of the button div */
+    height: 100%;
+    display: block; /* Remove extra space if SVG is inline */
+}
+
+/* Make sure .card itself is a positioning context for the absolute button */
+/* Most .card elements are already block or grid items. If not, add position: relative. */
+/* The base .card style already has overflow: hidden, which is good. */
+/* .card was updated to have position: relative in the previous step */
+
+
+/* Show button when .card is hovered */
+.card:hover .card-play-button,
+.card:focus-within .card-play-button { /* Also show if card has focus within (e.g. tabbing to button) */
+    opacity: 1;
+    transform: translateY(0) scale(1); /* Animate to full size and original position */
+}
+
+/* Play button's own hover/focus states */
+.card-play-button:hover {
+    background-color: var(--accent-color-hover); /* Darken green slightly */
+    transform: scale(1.1); /* Slightly enlarge button on its own hover */
+}
+.card-play-button:hover .play-icon-svg circle { /* Target SVG circle fill on button hover */
+    fill: var(--accent-color-hover);
+}
+
+.card-play-button:focus-visible {
+    opacity: 1; /* Ensure it's visible when focused */
+    transform: translateY(0) scale(1);
+    outline: 2px solid var(--focus-outline-color);
+    outline-offset: 2px;
+    background-color: var(--accent-color-hover); /* Consistent with hover */
+}
+.card-play-button:focus-visible .play-icon-svg circle {
+    fill: var(--accent-color-hover);
+}
+
+/* Specific adjustments if cards are very small or have different padding */
+/* For example, artist/genre cards might need smaller buttons or different positioning */
+.artist-card .card-play-button,
+.genre-card .card-play-button {
+    width: 40px;
+    height: 40px;
+    bottom: 0.5rem;
+    right: 0.5rem;
+}
+
+/* If the card is a link itself (artist-card, genre-card), clicking the button 
+   should ideally not trigger the main card link if their actions differ,
+   but here they both navigate to the same place. If they differed, 
+   event.stopPropagation() would be needed in JS for the button click.
+   For now, this CSS should be fine. */
 
 /* --- Responsive Design --- */
 
