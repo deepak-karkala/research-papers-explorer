@@ -222,3 +222,482 @@ header nav ul li a.active {
     color: var(--accent-color);
     font-weight: bold;
 }
+
+/* --- Refinements for Home Page Styling --- */
+
+/* Header Search Bar - ensure it aligns well and has good proportions */
+header {
+    /* Flex properties already exist, this is just a check */
+    align-items: center; 
+}
+
+#search-bar {
+    padding: 0.6rem 1rem; /* Slightly more padding */
+    font-size: 0.9rem;
+    /* width: 300px; /* Consider increasing width if space allows */
+}
+
+/* Home Page Section Titles */
+.home-section h2 {
+    font-size: 1.6rem; /* Slightly adjusted size */
+    margin-bottom: 1.2rem; /* More space below title */
+    /* border-bottom: 1px solid var(--hover-highlight-color); /* Alternative subtle border */
+}
+
+/* Card Row Enhancements */
+.card-row {
+    /* Add some padding to the container if cards are too close to edge */
+    padding-left: 5px; 
+    padding-right: 5px;
+    /* Subtle horizontal scrollbar styling (browser dependent) */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: var(--accent-color) var(--surface-color); /* Firefox */
+}
+
+/* Webkit (Chrome, Safari, Edge) scrollbar styling */
+.card-row::-webkit-scrollbar {
+    height: 8px; /* Height of horizontal scrollbar */
+}
+
+.card-row::-webkit-scrollbar-track {
+    background: var(--surface-color);
+    border-radius: 4px;
+}
+
+.card-row::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+.card-row::-webkit-scrollbar-thumb:hover {
+    background-color: #1aa34a; /* Darker green on hover */
+}
+
+/* Card Grid for Genres/Artists on Home Page */
+.genre-links.card-grid, .artist-links.card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Maybe slightly smaller cards for links */
+    gap: 0.8rem; /* Adjust gap */
+}
+
+.genre-links .genre-card, 
+.artist-links .artist-card {
+    background-color: var(--surface-color); /* Slightly different background for these link groups */
+    padding: 1rem; /* Consistent padding */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.genre-links .genre-card:hover, 
+.artist-links .artist-card:hover {
+    transform: translateY(-3px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.genre-links .card-title-link, 
+.artist-links .card-title-link {
+    font-size: 1rem;
+    font-weight: normal; /* Less emphasis than main card titles */
+}
+
+.artist-links .artist-card .card-logo {
+    width: 60px; /* Adjust if needed */
+    height: 60px;
+    margin-bottom: 0.75rem;
+}
+
+/* General Card Polish */
+.card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Softer shadow */
+}
+
+.card:hover {
+    /* Existing background change is good, can add a subtle lift too if desired for all cards */
+    /* transform: translateY(-2px); */ 
+    /* box-shadow: 0 3px 6px rgba(0,0,0,0.2); */
+}
+
+.card-title {
+    font-size: 1rem; /* Standardize paper/album/playlist card titles */
+    line-height: 1.3; /* Ensure good readability if title wraps */
+}
+
+.card-authors, .card-meta {
+    font-size: 0.85rem; /* Slightly smaller meta text */
+}
+
+.card-thumbnail, .card-logo, .card-thumbnail-placeholder {
+    border-bottom: 1px solid var(--hover-highlight-color); /* Subtle separator for image */
+}
+
+/* Ensure consistent link color within cards if any are added later */
+.card a {
+    color: var(--accent-color);
+}
+.card a:hover {
+    color: #1ed760; /* Brighter accent on hover */
+}
+
+/* --- List Page Section Styles --- */
+.list-page-section {
+    padding: 1rem 0; /* Add some padding above and below the content */
+}
+
+.list-page-section h2 {
+    font-size: 2rem; /* Prominent title for list pages */
+    margin-bottom: 1.5rem;
+    color: var(--primary-text-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* The .card-grid style is already defined and should work well here.
+   If specific adjustments are needed for list pages, they can be added.
+   For example, if cards in list pages should be larger or have different spacing: */
+/*
+.list-page-section .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); // Example: slightly larger cards
+    gap: 1.5rem; // Example: more gap
+}
+*/
+
+/* --- Detail Page Section Styles --- */
+.detail-page-section {
+    padding: 1rem 0;
+}
+
+.detail-header {
+    display: flex;
+    align-items: flex-start; /* Align items to the top */
+    margin-bottom: 2rem;
+    gap: 2rem; /* Space between art and info */
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--hover-highlight-color);
+}
+
+.detail-art, .detail-art-placeholder {
+    width: 200px; /* Fixed width for art */
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0; /* Prevent image from shrinking */
+    background-color: var(--surface-color); /* Placeholder bg */
+}
+
+.detail-art-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color);
+    font-size: 1rem;
+}
+
+.detail-info h1 {
+    font-size: 2.5rem;
+    color: var(--primary-text-color);
+    margin-bottom: 0.75rem;
+}
+
+.detail-description {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.detail-info .meta-info {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.5rem;
+}
+
+.detail-content h3 { /* Sub-section titles like "Papers in this Album" */
+    font-size: 1.5rem;
+    color: var(--primary-text-color);
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+/* --- Search Results Page Styles --- */
+.search-results-page {
+    padding: 1rem 0; /* Consistent with other list/detail pages */
+}
+
+.search-results-page > h2 { /* Main title "Search Results for: ..." */
+    font-size: 2rem;
+    margin-bottom: 2rem; /* More space after main title */
+    color: var(--primary-text-color);
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.search-category-section {
+    margin-bottom: 2.5rem; /* Space between category sections */
+}
+
+.search-category-section h3 { /* Category titles like "Papers (X)" */
+    font-size: 1.5rem;
+    color: var(--secondary-text-color); /* Differentiate from main title */
+    margin-bottom: 1rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--hover-highlight-color); /* Subtle separator */
+}
+
+/* Card grids within search results should use existing .card-grid styles.
+   If specific adjustments are needed for search results, they can be added here.
+   For example:
+   .search-category-section .card-grid {
+       gap: 1.2rem; // Slightly different gap for search results if desired
+   }
+*/
+
+.no-results-category { /* "No X found matching your query." */
+    font-style: italic;
+    color: var(--secondary-text-color);
+    margin-bottom: 2.5rem; /* Consistent spacing even if no results in a category */
+    padding: 1rem;
+    background-color: var(--surface-color);
+    border-radius: 4px;
+    border-left: 3px solid var(--accent-color);
+}
+
+.no-results-overall { /* Overall "No results found..." */
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-text-color);
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--surface-color);
+    border-radius: 8px;
+}
+
+/* --- Paper Detail Modal Styles --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top */
+    padding: 1rem;
+    overflow-y: auto; /* Allow modal itself to scroll if content is too long */
+}
+
+.modal-content {
+    background-color: var(--surface-color);
+    color: var(--primary-text-color);
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px; /* Max width of modal */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative; /* For close button positioning */
+    max-height: 90vh; /* Max height */
+    overflow-y: auto; /* Allow content within modal to scroll */
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    line-height: 1;
+}
+.modal-close-btn:hover {
+    color: var(--primary-text-color);
+}
+
+.modal-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.modal-meta {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.5rem;
+}
+.modal-meta strong {
+    color: var(--primary-text-color);
+}
+
+.modal-section {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hover-highlight-color);
+}
+
+.modal-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary-text-color);
+}
+
+.modal-section p, .modal-section ul {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--secondary-text-color);
+}
+
+.modal-section ul {
+    list-style-position: inside;
+    padding-left: 0.5rem;
+}
+.modal-section ul li {
+    margin-bottom: 0.3rem;
+}
+
+.modal-links {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hover-highlight-color);
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+}
+
+/* Basic button styling for modal links */
+.btn {
+    padding: 0.6rem 1.2rem;
+    text-decoration: none;
+    border-radius: 20px; /* Pill-shaped buttons */
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--background-color); /* Dark text on accent bg for contrast */
+}
+.btn-primary:hover {
+    background-color: #1aa34a; /* Slightly darker accent */
+    color: #ffffff;
+}
+
+.btn-secondary {
+    background-color: var(--hover-highlight-color);
+    color: var(--primary-text-color);
+}
+.btn-secondary:hover {
+    background-color: var(--surface-color); /* Slightly lighter surface */
+}
+
+/* Prevent background scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Paper list within detail pages */
+.detail-content .paper-list.card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust as needed */
+    gap: 1rem;
+}
+
+/* --- Playlist Detail Page Specific Styles --- */
+.playlist-summary-article {
+    background-color: var(--surface-color); /* Slightly different background for emphasis */
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    color: var(--secondary-text-color); /* Default text color for the article */
+}
+
+.playlist-summary-article h1,
+.playlist-summary-article h2,
+.playlist-summary-article h3,
+.playlist-summary-article h4,
+.playlist-summary-article h5,
+.playlist-summary-article h6 {
+    color: var(--primary-text-color); /* Ensure headings within article are primary color */
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+.playlist-summary-article h1 { font-size: 1.8em; }
+.playlist-summary-article h2 { font-size: 1.5em; }
+.playlist-summary-article h3 { font-size: 1.3em; } /* Match .detail-content h3 if appropriate */
+
+.playlist-summary-article p {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.playlist-summary-article a {
+    color: var(--accent-color);
+}
+
+.playlist-summary-article a:hover {
+    text-decoration: underline;
+}
+
+/* Ensure the general .detail-content h3 style is also suitable or override if needed */
+.playlist-detail-page .detail-content h3 { /* Title for "Papers in this playlist" */
+    font-size: 1.5rem;
+    color: var(--primary-text-color);
+    margin-top: 2rem; /* Add more space if summary article is present */
+    margin-bottom: 1rem;
+}
+
+/* --- Artist Detail Page Specific Styles --- */
+.artist-detail-page .artist-header .artist-logo,
+.artist-detail-page .artist-header .artist-logo-placeholder {
+    width: 150px; /* Slightly smaller than album/playlist art */
+    height: 150px;
+    border-radius: 50%; /* Circular logo for artists */
+}
+
+.artist-detail-page .artist-bio {
+    font-style: italic;
+    color: var(--secondary-text-color);
+    margin-bottom: 1rem;
+}
+
+/* Adjust spacing for multiple sections if needed */
+.artist-detail-page .detail-content h3.mt-2 {
+    margin-top: 2rem; /* More space before the albums section if papers are present */
+}
+.artist-detail-page .detail-content p.mt-1 {
+    margin-top: 1rem;
+}
+
+/* Ensure album list styling is consistent if needed */
+.artist-detail-page .album-list.card-grid {
+    /* Default card-grid styling should be fine, add specifics if needed */
+    /* e.g., grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); */
+}
+
+/* --- Genre Detail Page Specific Styles --- */
+.genre-detail-page .genre-header .detail-info {
+    /* If the genre header has no image, the text might need to span full width or be centered */
+    width: 100%; 
+}
+
+.genre-detail-page .genre-description {
+    font-size: 1.1rem; /* Slightly larger description for genre */
+    margin-bottom: 1rem;
+}
+
+/* Ensure playlist and paper list styling is consistent */
+.genre-detail-page .playlist-list.card-grid,
+.genre-detail-page .paper-list.card-grid {
+    /* Default card-grid styling should be fine, add specifics if needed */
+}
+
+/* Adjust spacing for multiple sections if needed (using existing mt-1, mt-2 from artist page) */
+.genre-detail-page .detail-content h3.mt-2 {
+    margin-top: 2rem; 
+}
+.genre-detail-page .detail-content p.mt-1 {
+    margin-top: 1rem;
+}
