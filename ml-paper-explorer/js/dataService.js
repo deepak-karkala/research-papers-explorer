@@ -84,5 +84,73 @@ const dataService = {
         const playlist = this.getPlaylistById(playlistId);
         if (!playlist) return [];
         return playlist.paper_ids.map(paperId => this.getPaperById(paperId)).filter(paper => paper);
+    },
+
+    performSearch: function(query) {
+        const normalizedQuery = query.toLowerCase().trim();
+        if (!normalizedQuery) {
+            return {
+                matchedPapers: [],
+                matchedAlbums: [],
+                matchedPlaylists: [],
+                matchedArtists: [],
+                matchedGenres: []
+            };
+        }
+
+        const results = {
+            matchedPapers: [],
+            matchedAlbums: [],
+            matchedPlaylists: [],
+            matchedArtists: [],
+            matchedGenres: []
+        };
+
+        // Search Papers
+        this.papers.forEach(paper => {
+            let found = false;
+            if (paper.title && paper.title.toLowerCase().includes(normalizedQuery)) found = true;
+            if (!found && paper.authors && paper.authors.some(author => author.toLowerCase().includes(normalizedQuery))) found = true;
+            if (!found && paper.abstract && paper.abstract.toLowerCase().includes(normalizedQuery)) found = true;
+            if (!found && paper.takeaways && paper.takeaways.some(takeaway => takeaway.toLowerCase().includes(normalizedQuery))) found = true;
+            if (!found && paper.venue && paper.venue.toLowerCase().includes(normalizedQuery)) found = true; // Added venue search
+
+            if (found) results.matchedPapers.push(paper);
+        });
+
+        // Search Albums
+        this.albums.forEach(album => {
+            let found = false;
+            if (album.title && album.title.toLowerCase().includes(normalizedQuery)) found = true;
+            if (!found && album.description && album.description.toLowerCase().includes(normalizedQuery)) found = true;
+            
+            if (found) results.matchedAlbums.push(album);
+        });
+
+        // Search Playlists
+        this.playlists.forEach(playlist => {
+            let found = false;
+            if (playlist.title && playlist.title.toLowerCase().includes(normalizedQuery)) found = true;
+            // Simple search in summary_article (HTML content). For more advanced, would need HTML stripping.
+            if (!found && playlist.summary_article && playlist.summary_article.toLowerCase().includes(normalizedQuery)) found = true;
+            
+            if (found) results.matchedPlaylists.push(playlist);
+        });
+
+        // Search Artists
+        this.artists.forEach(artist => {
+            if (artist.name && artist.name.toLowerCase().includes(normalizedQuery)) {
+                results.matchedArtists.push(artist);
+            }
+        });
+
+        // Search Genres
+        this.genres.forEach(genre => {
+            if (genre.name && genre.name.toLowerCase().includes(normalizedQuery)) {
+                results.matchedGenres.push(genre);
+            }
+        });
+
+        return results;
     }
 };
